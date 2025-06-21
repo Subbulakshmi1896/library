@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PERUNGUDI LIBRARY</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://img.freepik.com/premium-photo/library-filled-with-rows-neatly-organized-books-shelves_992134-75.jpg') no-repeat center center/cover;
+            height: 100vh;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background: turquoise;
+            padding: 15px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 60px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 12px 15px;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* Button to Add Book */
+        .add-book-btn {
+            display: block;
+            margin: 100px auto 20px auto;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .add-book-btn:hover {
+            background: darkgreen;
+        }
+
+        /* Book Form (Hidden by Default) */
+        .book-form {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: darkblue;
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .toggle-btn {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .available {
+            background: green;
+        }
+
+        .unavailable {
+            background: red;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: darkred;
+        }
+
+        /* Footer */
+        footer {
+            background-color: black;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 75px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKg-nEALOuKDeV2HV_Lb7CPbJgQix2MN65Li_-AUhHtw&s" alt="Books Speak Logo">
+            <h1>Books Hub</h1>
+        </div>
+        <ul>
+            <li><a href="#">PERUNGUDI</a></li>
+            <li><a href="#">Feedback</a></li>
+            <li><a href="adminlogin.html">Logout</a></li>
+            
+        </ul>
+    </nav>
+
+    <!-- Add Book Button -->
+    <button class="add-book-btn" onclick="showForm()">+ Add Book</button>
+
+    <!-- Book Form (Initially Hidden) -->
+    <div class="book-form" id="bookForm">
+        <h3>Add a New Book</h3>
+        <input type="text" id="bookName" placeholder="Book Name" required>
+        <input type="text" id="authorName" placeholder="Author Name" required>
+        <button class="submit-btn" onclick="addBook()">Add Book</button>
+    </div>
+
+    <!-- Book List Table -->
+    <table id="booksTable">
+        <tr>
+            <th>Book Name</th>
+            <th>Author</th>
+            <th>Availability</th>
+            <th>Action</th>
+            <th>Delete</th>
+        </tr>
+    </table>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Library Management System.</p>
+        <p>All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function showForm() {
+            document.getElementById("bookForm").style.display = "block";
+        }
+
+        function addBook() {
+            let bookName = document.getElementById("bookName").value.trim();
+            let authorName = document.getElementById("authorName").value.trim();
+
+            if (bookName === "" || authorName === "") {
+                alert("Please enter both Book Name and Author Name.");
+                return;
+            }
+
+            let books = JSON.parse(localStorage.getItem("books")) || [];
+            books.push({ name: bookName, author: authorName, available: true });
+            localStorage.setItem("books", JSON.stringify(books));
+
+            alert("Book added successfully!");
+            document.getElementById("bookName").value = "";
+            document.getElementById("authorName").value = "";
+            document.getElementById("bookForm").style.display = "none";
+
+            loadBooks();
+        }
+
+        function loadBooks() {
+            let books = JSON.parse(localStorage.getItem("books")) || [];
+            let table = document.getElementById("booksTable");
+
+            table.innerHTML = `
+                <tr>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>Availability</th>
+                    <th>Action</th>
+                    <th>Delete</th>
+                </tr>`;
+
+            books.forEach((book, index) => {
+                let row = table.insertRow();
+                row.innerHTML = `
+                    <td>${book.name}</td>
+                    <td>${book.author}</td>
+                    <td>${book.available ? "Available" : "Unavailable"}</td>
+                    <td><button class="toggle-btn ${book.available ? 'available' : 'unavailable'}" onclick="toggleAvailability(${index})">${book.available ? "ON" : "OFF"}</button></td>
+                    <td><button class="delete-btn" onclick="deleteBook(${index})">Delete</button></td>
+                `;
+            });
+        }
+
+        function toggleAvailability(index) {
+            let books = JSON.parse(localStorage.getItem("books")) || [];
+            books[index].available = !books[index].available;
+            localStorage.setItem("books", JSON.stringify(books));
+            loadBooks();
+        }
+
+        function deleteBook(index) {
+            let books = JSON.parse(localStorage.getItem("books")) || [];
+            books.splice(index, 1);
+            localStorage.setItem("books", JSON.stringify(books));
+            loadBooks();
+        }
+
+        window.onload = loadBooks;
+    </script>
+
+</body>
+</html>

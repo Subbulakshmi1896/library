@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Login</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://img.freepik.com/premium-photo/library-filled-with-rows-neatly-organized-books-shelves_992134-75.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        nav {
+            background: turquoise;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            height: 8%;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 60px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .logo h1 {
+            color: black;
+            font-size: 45px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            backdrop-filter: blur(15px);
+            margin-top: 100px;
+            max-width: 350px;
+        }
+        h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            box-shadow: 0px 0px 8px rgba(255, 204, 0, 0.7);
+        }
+        .btn {
+            background: linear-gradient(145deg, #4CAF50, #2E8B57);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 18px;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 50px;
+            transition: all 0.4s ease-in-out;
+        }
+        .btn:hover {
+            background: linear-gradient(145deg, #2E8B57, #4CAF50);
+            transform: scale(1.1);
+        }
+        .forgot-password {
+            display: block;
+            margin-top: 10px;
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        .signup-container {
+            margin-top: 20px;
+            color: black;
+            font-size: 16px;
+        }
+        .signup-container a {
+            color: blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .signup-container a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKg-nEALOuKDeV2HV_Lb7CPbJgQix2MN65Li_-AUhHtw&s" alt="Books Speak Logo">
+            <h1>B</h1><h1 style="color: darkgoldenrod;">OO</h1><h1>K</h1><h1>S H</h1><h1 style="color: darkgoldenrod;">U</h1><h1>B</h1>
+        </div>
+    </nav>
+    <form action="userlogin.php" method="POST">
+    <div class="login-container">
+        <h2>User Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <span class="error" id="user-error"></span>
+        <input type="password" id="password" placeholder="Password">
+        <span class="error" id="pass-error"></span>
+        <a href="#" class="forgot-password">Forgot Password?</a><br>
+        <button class="btn" onclick="loginUser()">Login</button>
+        <div class="signup-container">
+            <p>Don't have an account? <a href="register.html">Sign Up</a></p>
+        </div>
+    </div>
+</form>
+
+    <script>
+        // Redirect logged-in users
+        document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem("loggedInUser")) {
+                window.location.href = "dashboard.html";  // Redirect if already logged in
+            }
+        });
+
+        function loginUser() {
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let userError = document.getElementById("user-error");
+            let passError = document.getElementById("pass-error");
+
+            // Clear previous error messages
+            userError.textContent = "";
+            passError.textContent = "";
+
+            if (username === "") {
+                userError.textContent = "Username is required";
+                return;
+            }
+            if (password === "") {
+                passError.textContent = "Password is required";
+                return;
+            }
+
+            // Simulated authentication (Replace with actual backend validation)
+            if (username === "admin" && password === "12345") {
+                alert("Login successful!");
+
+                // Store session in sessionStorage
+                sessionStorage.setItem("loggedInUser", username);
+
+                // Redirect to the dashboard
+                window.location.href = "dashboard.html";  // Change this to your actual  dashboard page
+            } else {
+                alert("Invalid credentials. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
